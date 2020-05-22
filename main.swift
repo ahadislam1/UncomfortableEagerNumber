@@ -24,7 +24,7 @@ The smallest angle made between the two hands is 150 degrees.
 
 */
 
-func timeToTuple(_ time: String) -> (Int, Int) {
+func timeToTuple(_ time: String) -> (Double, Double) {
   //time is a string displayed as "HH:MM"
   //we'll also assume the time is in a 12h format.
 
@@ -32,21 +32,22 @@ func timeToTuple(_ time: String) -> (Int, Int) {
   let stringArray = time.split(separator: ":")
 
   // converts each string to integer
-  let intArray = stringArray.compactMap { Int($0) }
+  let doubleArray = stringArray.compactMap { Double($0) }
 
-  return (intArray[0], intArray[1])
+  return (doubleArray[0], doubleArray[1])
 
 }
 
 
-func smallestAngle(_ time: String) -> Int {
+func smallestAngle(_ time: String) -> Double {
   let tuple = timeToTuple(time)
 
   // initializing the hours and minutes
   let hour = tuple.0
   let minute = tuple.1
 
-  let hourInDegrees = hour * 30
+  // minute / 60 allows us to show the exact position of the hourhand.
+  let hourInDegrees = (hour + (minute / 60)) * 30
   let minuteInDegrees = minute * 6
 
   let angle = abs(hourInDegrees - minuteInDegrees)
@@ -55,3 +56,5 @@ func smallestAngle(_ time: String) -> Int {
 }
 
 print(smallestAngle("3:52"))
+print(smallestAngle("3:00"))
+print(smallestAngle("3:45"))
